@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01제이쿼리 응용_영상을 활용한 내비게이션 구현하기(포카리)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <style>
+      *{margin: 0px;padding: 0px;}
+      ol,ul,li{list-style: none;}
+      a{text-decoration: none;color: #333;}
+      body{
+        font-family: '맑은고딕',Arial,sans-serif;
+        font-size: 12px;
+        color: #333;
+      }
+      header{
+        position: fixed;top: 0px;left: 0px;
+        z-index: 100;
+      }
+      header > h1{padding: 20px 0px 0px 20px;}
+      header > h1 img{width: 200px;}
+      main{
+        width: 100%;
+        height: 100vh;/*100%이나 100vh 사용 : 포지션 속성이 absolute,fixed일때 먹힌다. or vertical height의 약자인 vh단위*/
+        background-image: url(./s_img/bg.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;/*가로가 잘림 사이즈에 맞게*/
+      }
+      section{
+        width: 100%;height: 100%;
+        position: fixed;top: 0px;left: 0px;
+        display: flex;/*article 4개를 가로 배치*/
+        justify-content: flex-end;/* 오른쪽 끝으로 배치*/
+        z-index: 10;
+      }
+      section > article{
+        width: 18%;height: 100%;
+        position: relative;
+        overflow: hidden;
+        transform: skewX(-10deg);
+        border-left: 1px solid #fff;
+      }
+      video{height: 100%; opacity: 0;}/*영상이 않보이게*/
+
+      h2{
+        position: absolute;top: 3%;left: 50%;
+        color: #fff;
+        font-size: 30px;
+        transform: translateX(-50%) skewX(10deg);
+      }
+      .bar{
+        background: rgba(255,255,255,.5);
+        width: 80%;height: 0px;
+        position: absolute;
+        top: 5%;left:0px;
+        transform: translateY(-50);
+      }
+      h3{
+        position: absolute;top: 60%;right: -500px;
+      }
+      .detail{
+        position: absolute;width: 60%;
+        right: -500px;top:70%;
+        color: #fff;
+      }
+      footer{
+        position: absolute;/*absolute : 겹치는 속성이라 Z-index값을 사용, 가로크기가 없어져서 넣어줌*/
+        bottom: 0px;left: 0px;
+        width: 100%;
+        line-height: 40px;
+        text-align: center;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+      
+      $(function(){
+        //사용자가 마우스로 article태그를 오버하면
+        $('section article').mouseenter(function(){
+          
+          //1. article의 너비가 18%에서 35%로 넓어지면서 영상과 콘텐츠가 보이게
+          $(this).stop().animate({'width':'35%'},300);
+          //2. .bar의 서식 opacity:0에서 1로, 높이:0에서 30px로 변한다.
+          $(this).find('.bar').animate({'opacity':'1','height':'30px'},300);
+          //3. h3, .detail의 위치가 -500px에서 50px로 변한다.
+          $(this).find('h3').animate({'right':'50px'},300);
+          $(this).find('.detail').animate({'right':'20px'},300);
+
+          //영상플레이하기
+          $(this).find('video').animate({'opacity':'1'},300); //영상을 보이게하고 
+
+          let v = $(this).find('video').get(0); //영상 객체변수선언
+          v.play(); //영상을 재생하라
+        });
+
+        //마우스 아웃하면
+        $('section article').mouseleave(function(){ 
+          
+          $(this).stop().animate({'width':'18%'},500);
+          $(this).find('.bar').animate({'opacity':'0','height':'0px'},300);
+          $(this).find('h3').animate({'right':'-500px'},300);
+          $(this).find('.detail').animate({'right':'-500px'},300);
+          $(this).find('video').animate({'opacity':'0'},300);
+          
+        });
+      });
+
+    </script>
+
+      
+  </head>
+  <body>
+    <header>
+      <h1><a href="j20.html" title="메인페이지로 가기">
+        <img src="./s_img/logo.png" alt="">
+      </a></h1>
+    </header>
+
+    <main>
+      <section>
+        <article>
+          <video autoplay muted loop><!--자동 음속어 무한반복-->
+            <source src="./movie/ad1.mp4" type="video/mp4">  
+          </video>
+          <h2>&#x007C;MG+</h2>
+          <div class="bar"></div>
+          <h3>몸의 수분량은 어느 정도 일까?</h3>
+          <p class="detail">인간의 몸은 약 60%가 수분입니다. 
+            체중 60kg인 사람의 경우 36리터 정도의 수분을 체내에 가지고 있습니다.</p>
+
+        </article>
+        <article>
+          <video autoplay muted loop><!--자동 음속어 무한반복-->
+            <source src="./movie/ad2.mp4" type="video/mp4">  
+          </video>
+          <h2>&#x007C;k+</h2>
+          <div class="bar"></div>
+          <h3>생명의 원천은 바다?</h3>
+          <p class="detail">약 46억년 전 지구 최초의 생명체는 고대의 바다 속에서 
+            탄생되었습니다. 그리고 바다로부터 육지로 올라와 인간으로 진화하였습니다. 
+            우리의 몸 속 수분이 이온을 포함한 바닷물과 닮았다고 하는 것이 바로 그 이유입니다.</p>
+        </article>
+        <article>
+          <video autoplay muted loop><!--자동 음속어 무한반복-->
+            <source src="./movie/ad3.mp4" type="video/mp4">  
+          </video>
+          <h2>&#x007C;Ca+</h2>
+          <div class="bar"></div>
+          <h3>1일의 수분 배출</h3>
+          <p class="detail">우리의 일상생활을 통해서 소변, 땀, 호흡으로 하루에
+            2.5리터 정도의 수분을 몸으로부터 읽어버립니다. 많은 땀을 흘릴 때에 
+            갈증이 나는 것은 줄어든 몸 속 수분을 회복하려고 하는 우리 몸의 활동입니다.</p>
+        </article>
+        <article>
+          <video autoplay muted loop><!--자동 음속어 무한반복-->
+            <source src="./movie/ad4.mp4" type="video/mp4">  
+          </video>
+          <h2>&#x007C;Na+</h2>
+          <div class="bar"></div>
+          <h3>몸 속 수분의 역할</h3>
+		      <p class="detail">영양소를 몸의 구석구석 운반, 불필요한 노폐물을 몸 밖으로 
+            배출, 체온 조절</p>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      Copyright&copy;2022 포카리스웨이트 allrights reserved.
+    </footer>
+  </body>
+</html>
