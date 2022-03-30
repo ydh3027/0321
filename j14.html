@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02.제이쿼리 사이드메뉴</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <style>
+      body{height: 200px;}
+      #q_mnu{
+        position: fixed;right: 0px;top:0px;
+        width: 152px;height: 100%;
+        background: #ff0;
+      }
+      #q_mnu img{
+        padding-top:300px;
+       
+      }
+      #q_mnu a{
+        background: #000;color: #fff;
+        display: block;
+        text-align: center;
+        line-height: 30px;
+        text-decoration: none;
+      }
+      #q_mnu i.fas{
+        position: absolute;
+        right: 152px;top: 49%;
+        font-size: 24px;
+        border:  1px solid #ccc;
+        border-right: none;
+        color: #333;
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+    $(function(){
+
+    //방향버튼을 클릭하면 aside의 위치를 변경하여 보이지 않게 하기
+      const a_btn = $('#q_mnu i.fas');
+
+      a_btn.click(function(){
+
+        if($(this).hasClass('fa-angle-right')==true){ //만약에 i.fas에 클래스 명이 right라면
+          // $('#q_mnu').animate({'right':'-151px'},500);
+          $('#q_mnu').animate({'right':-$('#q_mnu').width()},500); //밖으로 내보내서 안보이게 한다.
+          $(this).attr('class','fas fa-angle-left'); //화살표 방향을 왼쪽으로 향하게 돌린다.
+        }else{
+          $('#q_mnu').animate({'right':'0px'},500); //다시 나오게 하고
+          $(this).attr('class','fas fa-angle-right'); //화살표 방향은 오른쪽으로 방향을 변경한다.
+        }
+
+      });
+    });
+    </script>
+  </head>
+  <body>
+    <h2>02.제이쿼리 사이드메뉴</h2>
+     <aside id="q_mnu">
+       <img src = './images/sidebar.jpg' alt="퀵메뉴">
+       <a href="#" title="위로 올라가기">Top</a>
+       <i class="fas fa-angle-right"></i>
+     </aside>  
+  </body>
+</html>
